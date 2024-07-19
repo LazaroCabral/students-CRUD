@@ -6,7 +6,7 @@ use Lazaro\StudentCrud\DTO\Student\Utils\Enums\INPUT_NAMES;
 
 class Student{
 
-    public const TABLE_NAME="students2";
+    public const TABLE_NAME="students";
 
     private $id;
     private $name;
