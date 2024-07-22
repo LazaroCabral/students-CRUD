@@ -5,9 +5,9 @@
         <?php
 
             use Lazaro\StudentCrud\Controllers\Admin\UpdateStudent;
+            use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
             use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
             use Lazaro\StudentCrud\Request\Utils\RequestUtils;
-            use Lazaro\StudentCrud\Validators\Utils\Exceptions\InvalidInputException;
 
             require_once "../../vendor/autoload.php";
 
@@ -18,10 +18,6 @@
                 if(RequestUtils::methodValidate(HTTP_METHODS::POST)){
                     $updateStudent->POST($_POST);
                 }
-            }
-            function printForm(UpdateStudent $updateStudentController){
-                $data=$_REQUEST;
-                $updateStudentController->GET($data);
             }
         ?>
     </head>
@@ -34,10 +30,8 @@
                 try{
                     methodSelection($updateStudentController);
                 } catch(mysqli_sql_exception){
-                    printForm($updateStudentController);
                     echo "database error";
                 } catch(InvalidInputException $ex){
-                    printForm($updateStudentController);
                     echo $ex->getMessage();
                 }
                 ?>

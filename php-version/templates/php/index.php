@@ -25,7 +25,11 @@
                 </thead>
                 <tbody>
                     <?php
-                        $showStudentsController->GET();//GET();
+                    try{
+                        $showStudentsController->GET();
+                    } catch(mysqli_sql_exception){
+                        echo "database error";
+                    }
                     ?>
                 </tbody>
             </table>

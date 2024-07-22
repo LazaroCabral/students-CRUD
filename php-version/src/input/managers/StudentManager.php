@@ -1,12 +1,12 @@
 <?php
 
-namespace Lazaro\StudentCrud\Managers;
+namespace Lazaro\StudentCrud\Input\Managers;
 
 use Lazaro\StudentCrud\Db\DAO\StudentDAO;
 use Lazaro\StudentCrud\Db\Entities\Student;
-use Lazaro\StudentCrud\Managers\Utils\InputConverter;
-use Lazaro\StudentCrud\Validators\StudentValidator;
-use Lazaro\StudentCrud\Validators\Utils\Enums\STUDENT_INPUT_NAMES;
+use Lazaro\StudentCrud\Input\Utils\Converters\StudentInputConverter;
+use Lazaro\StudentCrud\Input\Utils\Enums\STUDENT_INPUT_NAMES;
+use Lazaro\StudentCrud\Input\Utils\Validators\StudentValidator;
 
 class StudentManager{
 
@@ -44,37 +44,37 @@ class StudentManager{
     }
 
     public function findById($data): Student{
-        @$id=$data["id"];
-        StudentValidator::idIsValid($id);
+        StudentValidator::idIsValid($data);
+        $id=$data[STUDENT_INPUT_NAMES::ID->value];
         return $this->studentDAO->findById($id);
     }
 
     public function insert($data){
         $this->insertInputIsvalid($data);
-        $inputStatus=$data["status"];
-        $data["status"]=InputConverter::statusConveter($inputStatus);
+        StudentInputConverter::convertAllFields($data);
         $student = self::objectToStudent($data);
         $this->studentDAO->insert($student);
     }
 
     public function update($data){
         $this->updateInputIsValid($data);
-        $data["status"]=InputConverter::statusConveter($data["status"]);
+        StudentInputConverter::convertAllFields($data);
         $student= self::objectToStudent($data);
         $this->studentDAO->update($student);
     }
 
     public function updateStatus($data){
         $this->updateStatusInputIsValid($data);
-        $id=$data["id"];
-        $status=InputConverter::statusConveter($data["status"]);
-        echo $status;
+        StudentInputConverter::convertAllFields($data);
+        $id=$data[STUDENT_INPUT_NAMES::ID->value];
+        $status=$data[STUDENT_INPUT_NAMES::STATUS->value];
         $this->studentDAO->updateStatus($status,$id);
     }
 
-    public function delete($json){
-        StudentValidator::idIsValid($json);
-        $this->delete($json->id);
+    public function delete($data){
+        StudentValidator::idIsValid($data);
+        $id=$data[STUDENT_INPUT_NAMES::ID->value];
+        $this->delete($id);
     }
 
     public static function objectToStudent($obj): Student{

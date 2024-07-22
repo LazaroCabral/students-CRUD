@@ -1,6 +1,6 @@
 <?php
 
-namespace Lazaro\StudentCrud\Validators\Utils\Exceptions;
+namespace Lazaro\StudentCrud\Input\Utils\Validators\Exceptions;
 
 use Exception;
 

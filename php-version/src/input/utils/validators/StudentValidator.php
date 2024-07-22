@@ -1,9 +1,9 @@
 <?php
 
-namespace Lazaro\StudentCrud\Validators;
+namespace Lazaro\StudentCrud\Input\Utils\Validators;
 
-use Lazaro\StudentCrud\Validators\Utils\Enums\STUDENT_INPUT_NAMES;
-use Lazaro\StudentCrud\Validators\Utils\Exceptions\InvalidInputException;
+use Lazaro\StudentCrud\Input\Utils\Enums\STUDENT_INPUT_NAMES;
+use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
 
 class StudentValidator{
 

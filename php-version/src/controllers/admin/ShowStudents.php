@@ -2,7 +2,7 @@
 
 namespace Lazaro\StudentCrud\Controllers\Admin;
 
-use Lazaro\StudentCrud\Managers\StudentManager;
+use Lazaro\StudentCrud\Input\Managers\StudentManager;
 use Lazaro\StudentCrud\Render\student\StudentToTable;
 
 class ShowStudents{

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lazaro\StudentCrud\Validators\Utils\Enums;
+namespace Lazaro\StudentCrud\Input\Utils\Enums;
 
 enum STUDENT_INPUT_NAMES: string{
     case ID="id";

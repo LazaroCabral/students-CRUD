@@ -1,7 +1,7 @@
 function update(updateStatus){
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/davos-tech/src/rest/controllers/admin/UpdateStudentStatus.php",
+        url: "http://localhost:8080/student-crud/php-version/templates/php/rest/update-status.php",
         data: JSON.stringify(updateStatus),
         dataType: "application/json",
         success: function (response) {

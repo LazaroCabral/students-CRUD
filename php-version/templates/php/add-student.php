@@ -4,9 +4,9 @@
         <?php
 
             use Lazaro\StudentCrud\Controllers\Admin\AddStudent;
+            use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
             use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
             use Lazaro\StudentCrud\Request\Utils\RequestUtils;
-            use Lazaro\StudentCrud\Validators\Utils\Exceptions\InvalidInputException;
 
             require_once "../../vendor/autoload.php";
         ?>

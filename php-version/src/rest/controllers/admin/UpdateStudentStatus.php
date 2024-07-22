@@ -2,7 +2,7 @@
 
 namespace Lazaro\StudentCrud\Rest\Controllers\Admin;
 
-use Lazaro\StudentCrud\Managers\StudentManager;
+use Lazaro\StudentCrud\Input\Managers\StudentManager;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 
 class UpdateStudentStatus{
