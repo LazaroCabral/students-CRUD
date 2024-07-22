@@ -16,6 +16,11 @@ class StudentManager{
         $this->studentDAO=new StudentDAO();
     }
 
+    private static function convertAndValidate($validate,&$inputData){
+        $validate($inputData);
+        StudentInputConverter::convertAllFields($inputData);
+    }
+
     private function updateInputIsValid($data){
         StudentValidator::idIsValid($data);
         StudentValidator::nameIsValid($data);
@@ -34,7 +39,7 @@ class StudentManager{
         StudentValidator::passwordIsValid($data);
     }
 
-    function updateStatusInputIsValid($data){
+    private function updateStatusInputIsValid($data){
         StudentValidator::statusIsValid($data);
         StudentValidator::idIsValid($data);
     }
@@ -44,35 +49,32 @@ class StudentManager{
     }
 
     public function findById($data): Student{
-        StudentValidator::idIsValid($data);
+        self::convertAndValidate(fn ($inputData) => StudentValidator::idIsValid($inputData),$data);
         $id=$data[STUDENT_INPUT_NAMES::ID->value];
         return $this->studentDAO->findById($id);
     }
 
     public function insert($data){
-        $this->insertInputIsvalid($data);
-        StudentInputConverter::convertAllFields($data);
+        self::convertAndValidate($this->insertInputIsvalid(...),$data);
         $student = self::objectToStudent($data);
         $this->studentDAO->insert($student);
     }
 
     public function update($data){
-        $this->updateInputIsValid($data);
-        StudentInputConverter::convertAllFields($data);
+        self::convertAndValidate($this->updateInputIsValid(...),$data);
         $student= self::objectToStudent($data);
         $this->studentDAO->update($student);
     }
 
     public function updateStatus($data){
-        $this->updateStatusInputIsValid($data);
-        StudentInputConverter::convertAllFields($data);
+        self::convertAndValidate($this->updateStatusInputIsValid(...),$data);
         $id=$data[STUDENT_INPUT_NAMES::ID->value];
         $status=$data[STUDENT_INPUT_NAMES::STATUS->value];
         $this->studentDAO->updateStatus($status,$id);
     }
 
     public function delete($data){
-        StudentValidator::idIsValid($data);
+        self::convertAndValidate(fn ($inputData) => StudentValidator::idIsValid($inputData),$data);
         $id=$data[STUDENT_INPUT_NAMES::ID->value];
         $this->delete($id);
     }
