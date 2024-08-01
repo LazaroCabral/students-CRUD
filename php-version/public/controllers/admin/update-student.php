@@ -32,7 +32,7 @@ function GET($data){
 function POST($data){
     $studentManager=new StudentManager();
     $studentManager->update($data);
-    RequestUtils::redirectTo(RequestUtils::SOURCE_PROJECT."/views/admin/index.php");
+    RequestUtils::redirectTo(RequestUtils::SOURCE_PROJECT."/public/controllers/admin/show-students.php");
 }
 function execute(){
     $setViewData=new SetViewData();
