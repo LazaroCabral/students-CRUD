@@ -3,19 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <?php
-
-            use Lazaro\StudentCrud\Controllers\Admin\ShowStudents;
-
-            require_once "../../vendor/autoload.php";
-
-            $showStudentsController=new ShowStudents();
+            $viewData=@$GLOBALS["viewData"];
+            $printRowsTable=@$viewData["renderFunctions"]["printRowsTable"];
         ?>
     </head>
     <body>
         <div>
             <h1>Lista de estudantes</h1>
             <div>
-                <a href="./add-student.php">adicionar aluno</a>
+                <a href="add-student.php">adicionar aluno</a>
             </div>
             <table>
                 <thead>
@@ -24,17 +20,12 @@
                     <th>STATUS</th>
                 </thead>
                 <tbody>
-                    <?php
-                    try{
-                        $showStudentsController->GET();
-                    } catch(mysqli_sql_exception){
-                        echo "database error";
-                    }
-                    ?>
+                    <?php if(is_callable($printRowsTable)) $printRowsTable()?>
                 </tbody>
             </table>
+            <p><?php if($viewData["errorMessage"]!=null) echo $viewData["errorMessage"]?></p>
         </div>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="../scripts/update-student/update-student-status.js"></script>
+        <script src="../../static/scripts/update-student//update-student-status.js"></script>
     </body>
 </html>
