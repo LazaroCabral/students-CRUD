@@ -23,7 +23,7 @@
                     <?php if(is_callable($printRowsTable)) $printRowsTable()?>
                 </tbody>
             </table>
-            <p><?php if($viewData["errorMessage"]!=null) echo $viewData["errorMessage"]?></p>
+            <p><?php if(@$viewData["errorMessage"]!=null) echo @$viewData["errorMessage"]?></p>
         </div>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="../../static/scripts/update-student//update-student-status.js"></script>
