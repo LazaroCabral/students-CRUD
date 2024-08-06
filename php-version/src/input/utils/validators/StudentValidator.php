@@ -22,19 +22,23 @@ class StudentValidator{
     }
     static function nameIsValid($data){
         $name=$data[STUDENT_INPUT_NAMES::NAME->value];
-        $name != null && $name != "" ? : throw new InvalidInputException("nome invalido!");
+        if(empty($name))
+            throw new InvalidInputException("nome invalido!");
     }
     static function emailIsValid($data){
         $email=$data[STUDENT_INPUT_NAMES::EMAIL->value];
-        $email !=null && $email != "" ? : throw new InvalidInputException("email invalido!");
+        if(empty($email) || preg_match("/^\w+[@]\w+\.\w+$/",$email) != 1)
+            throw new InvalidInputException("email invalido!");
     }
     static function phoneIsValid($data){
         $phone=$data[STUDENT_INPUT_NAMES::PHONE->value];
-        $phone !=null && $phone != "" ? : throw new InvalidInputException("telefone invalido!");
+        if(empty($phone) || preg_match("/^\d{11}$/",$phone) != 1)
+            throw new InvalidInputException("telefone invalido!");
     }
     static function valuePerMonthIsValid($data){
         $valuePerMonth=$data[STUDENT_INPUT_NAMES::VALUE_PER_MONTH->value];
-        $valuePerMonth !=null && $valuePerMonth != "" ? :throw new InvalidInputException("mensalidade invalida!"); 
+        if(empty($valuePerMonth) || preg_match("/^\d{1,4}[\.]\d{2}$/",$valuePerMonth) != 1)
+                throw new InvalidInputException("mensalidade invalida!");
     }
     static function passwordIsValid($data){
         $password=$data[STUDENT_INPUT_NAMES::PASSWORD->value];
