@@ -10,7 +10,7 @@
     <body>
         <div>
             <h1>Atualizar estudante</h1>
-            <a href="./index.php">tela inicial</a>
+            <a href="show-students.php">tela inicial</a>
             <?php if(is_callable($printForm)) $printForm();?>
             <p><?php if($errorMessage!=null) echo $errorMessage;?></p>
         </div>
