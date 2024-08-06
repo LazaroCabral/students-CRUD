@@ -18,7 +18,8 @@ class StudentValidator{
 
     static function idIsValid($data){
         $id=$data[STUDENT_INPUT_NAMES::ID->value];
-        $id !=null && $id != "" ? : throw new InvalidInputException("id invalido!");
+        if(empty($id))
+            throw new InvalidInputException("id invalido!");
     }
     static function nameIsValid($data){
         $name=$data[STUDENT_INPUT_NAMES::NAME->value];
@@ -42,14 +43,17 @@ class StudentValidator{
     }
     static function passwordIsValid($data){
         $password=$data[STUDENT_INPUT_NAMES::PASSWORD->value];
-        $password !=null && $password != "" ? : throw new InvalidInputException("senha invalida!");
+        if(empty($password))
+            throw new InvalidInputException("senha invalida!");
     }
     static function statusIsValid($data){
         $status=$data[STUDENT_INPUT_NAMES::STATUS->value];
-        $status !=null && $status != "" ? : throw new InvalidInputException("status invalido!");
+        if(empty($status))
+            throw new InvalidInputException("status invalido!");
     }
     static function observationIsValid($data){
         $observation=$data[STUDENT_INPUT_NAMES::ID->value];
-        $observation !=null && $observation != "" ? : throw new InvalidInputException("observação invalida!");
+        if(empty($observation))
+            throw new InvalidInputException("observação invalida!");
     }
 }
