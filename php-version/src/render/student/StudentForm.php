@@ -7,7 +7,10 @@ use Lazaro\StudentCrud\Render\Student\Utils\StudentRenderUtils;
 
 class StudentForm{
 
-    static function printForm(Student $student){
+    static function printForm(Student|null $student=null){
+        if($student == null){
+            $student= new Student(null,null,null,null,null,null,null,null);
+        }
         echo "<form action=\"\" method=\"post\">".
                 "<input hidden=\"hidden\" name=\"id\" id=\"".$student->getId()."\" value=\"".$student->getId()."\">".
                 "<label for=\"name\">Nome</label>".
