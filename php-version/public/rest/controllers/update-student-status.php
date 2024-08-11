@@ -14,9 +14,11 @@ function execute(){
         methodSelector();
     } catch(mysqli_sql_exception){
         http_response_code(505);
+        echo "database error!";
         die;
     } catch(InvalidInputException $ex){
         http_response_code(400);
+        echo $ex->getMessage();
         die;
     }
 }
