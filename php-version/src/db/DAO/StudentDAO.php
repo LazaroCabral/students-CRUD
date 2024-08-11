@@ -28,9 +28,9 @@ class StudentDAO{
         return $this->convertRowsToStudents($result);
     }
 
-    public function findById($id): Student{
+    public function findById($id): Student|null{
         $result=$this->connection->query("SELECT * FROM ".Student::TABLE_NAME." WHERE id=".$id.";");
-        return $this->convertRowsToStudents($result)[0];
+        return @$this->convertRowsToStudents($result)[0];
     }
 
     public function insert(Student $student): bool{
