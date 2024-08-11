@@ -34,23 +34,27 @@ class StudentDAO{
     }
 
     public function insert(Student $student): bool{
-        return $this->connection->query("INSERT INTO ".Student::TABLE_NAME."(name,email,phone,value_per_month,password,status,observation) ".
+        $this->connection->query("INSERT INTO ".Student::TABLE_NAME."(name,email,phone,value_per_month,password,status,observation) ".
             "VALUES ('".$student->getName()."','".$student->getEmail()."','".$student->getPhone()."',".$student->getValuePerMonth().","
             ."'".$student->getPassword()."','".$student->getStatus()."','".$student->getObservation()."');");
+        return $this->connection->affected_rows == 1 ? true : false;
     }
 
     public function update(Student $student): bool{
-        return $this->connection->query("UPDATE ".Student::TABLE_NAME." SET name='".$student->getName()."'".
+        $this->connection->query("UPDATE ".Student::TABLE_NAME." SET name='".$student->getName()."'".
             ",email='".$student->getEmail()."',phone='".$student->getPhone()."',value_per_month='".$student->getValuePerMonth()."'".
             ",password='".$student->getPassword()."',status=".$student->getStatus().",observation='".$student->getObservation()."' WHERE id=".$student->getId().";");
+        return $this->connection->affected_rows == 1? true:false;
     }
 
     public function updateStatus($status,$id): bool{
-        return $this->connection->query("UPDATE ".Student::TABLE_NAME." SET status=".$status." WHERE id=".$id.";");
+        $this->connection->query("UPDATE ".Student::TABLE_NAME." SET status=".$status." WHERE id=".$id.";");
+        return $this->connection->affected_rows == 1 ? true : false; 
     }
 
     public function delete(Student $student): bool{
-        return $this->connection->query("DELETE FROM ".Student::TABLE_NAME." WHERE id=".$student->getId().";");
+        $this->connection->query("DELETE FROM ".Student::TABLE_NAME." WHERE id=".$student->getId().";");
+        return $this->connection->affected_rows == 1 ? true : false;
     }
 
 }
