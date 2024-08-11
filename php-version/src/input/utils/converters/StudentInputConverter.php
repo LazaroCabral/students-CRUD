@@ -10,12 +10,10 @@ class StudentInputConverter{
         self::statusConveter($inputData[STUDENT_INPUT_NAMES::STATUS->value]);
     }
 
-    static function statusConveter(&$status): int{
+    static function statusConveter(&$status) {
         if($status == "on" || $status == "true"){
-            $status=1;
-            return 1;
+            $status="1";
         }
-        $status=0;
-        return 0;
+        $status="0";
     }
 }
