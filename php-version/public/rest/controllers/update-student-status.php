@@ -16,7 +16,7 @@ function execute(){
         http_response_code(505);
         die;
     } catch(InvalidInputException $ex){
-        http_response_code(402);
+        http_response_code(400);
         die;
     }
 }
