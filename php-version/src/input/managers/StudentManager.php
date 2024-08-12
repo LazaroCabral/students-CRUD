@@ -17,8 +17,8 @@ class StudentManager{
     }
 
     private static function convertAndValidate($validate,&$inputData){
-        $validate($inputData);
         StudentInputConverter::convertAllFields($inputData);
+        $validate($inputData);
     }
 
     private function updateInputIsValid($data){
