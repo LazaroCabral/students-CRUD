@@ -48,7 +48,7 @@ class StudentManager{
         return $this->studentDAO->findAll();
     }
 
-    public function findById($data): Student{
+    public function findById($data): Student|null{
         self::convertAndValidate(fn ($inputData) => StudentValidator::idIsValid($inputData),$data);
         $id=$data[STUDENT_INPUT_NAMES::ID->value];
         return $this->studentDAO->findById($id);
