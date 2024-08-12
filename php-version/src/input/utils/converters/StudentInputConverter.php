@@ -13,6 +13,7 @@ class StudentInputConverter{
     static function statusConveter(&$status) {
         if($status == "on" || $status == "true"){
             $status="1";
+            return;
         }
         $status="0";
     }
