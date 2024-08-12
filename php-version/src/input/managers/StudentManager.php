@@ -60,10 +60,10 @@ class StudentManager{
         $this->studentDAO->insert($student);
     }
 
-    public function update($data){
+    public function update($data): bool{
         self::convertAndValidate($this->updateInputIsValid(...),$data);
         $student= self::objectToStudent($data);
-        $this->studentDAO->update($student);
+        return $this->studentDAO->update($student);
     }
 
     public function updateStatus($data){
