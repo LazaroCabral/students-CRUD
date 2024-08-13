@@ -27,7 +27,6 @@ function methodSelector(){
 }
 
 function get(){
-    //$viewData=&$GLOBALS["view"];
     $studentManager= new StudentManager();
     $students=$studentManager->findAll();
     $toTable=new StudentToTable(null,["style =\"color:blue\""]);
