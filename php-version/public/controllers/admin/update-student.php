@@ -1,8 +1,7 @@
 <?php
 
-use Lazaro\StudentCrud\Controllers\Admin\UpdateStudent;
-use Lazaro\StudentCrud\Db\Entities\Student;
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
+use Lazaro\StudentCrud\Input\Utils\Enums\STUDENT_INPUT_NAMES;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
 use Lazaro\StudentCrud\Render\Student\StudentForm;
 use Lazaro\StudentCrud\View\Data\SetViewData;
@@ -26,12 +25,19 @@ function GET($data){
     $setViewData=new SetViewData();
     $studentManager = new StudentManager();
     $student = $studentManager->findById($data);
+    if($student == null){
+        $setViewData->setErrorMessage("usuario não encontrado!");
+    }
     $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
 }
 
 function POST($data){
     $studentManager=new StudentManager();
-    $studentManager->update($data);
+    if($studentManager->update($data) == false){
+        $id=$data[STUDENT_INPUT_NAMES::ID->value];
+        RequestUtils::redirectTo(RequestUtils::SOURCE_PROJECT."/public/controllers/admin/update-student.php?id=".$id);
+        return;
+    }
     RequestUtils::redirectTo(RequestUtils::SOURCE_PROJECT."/public/controllers/admin/show-students.php");
 }
 function execute(){
@@ -39,11 +45,16 @@ function execute(){
     try{
         methodSelection();
     } catch(mysqli_sql_exception){
-        $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm(new Student(null,null,null,null,null,null,null,null)));
+        $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
         $setViewData->setErrorMessage("database error");
     } catch(InvalidInputException $ex){
-        $studentManager=new StudentManager();
-        $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm($studentManager->findById($_POST)));
+        if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
+            $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
+            $setViewData->setErrorMessage($ex->getMessage());
+        } elseif(RequestUtils::methodValidate(HTTP_METHODS::POST)){
+            $student=StudentManager::objectToStudent($_POST);
+            $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
+        }
         $setViewData->setErrorMessage($ex->getMessage());
     } finally{
         require_once "../../../views/admin/update-student.php";
