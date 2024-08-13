@@ -22,13 +22,12 @@ function methodSelection(){
 }
 
 function GET($data){
-    $setViewData=new SetViewData();
     $studentManager = new StudentManager();
     $student = $studentManager->findById($data);
     if($student == null){
-        $setViewData->setErrorMessage("usuario não encontrado!");
+        SetViewData::setErrorMessage("usuario não encontrado!");
     }
-    $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
+    SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm($student));
 }
 
 function POST($data){
@@ -41,21 +40,20 @@ function POST($data){
     RequestUtils::redirectTo(RequestUtils::SOURCE_PROJECT."/public/controllers/admin/show-students.php");
 }
 function execute(){
-    $setViewData=new SetViewData();
     try{
         methodSelection();
     } catch(mysqli_sql_exception){
-        $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
-        $setViewData->setErrorMessage("database error");
+        SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm(null));
+        SetViewData::setErrorMessage("database error");
     } catch(InvalidInputException $ex){
         if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
-            $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
-            $setViewData->setErrorMessage($ex->getMessage());
+            SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm(null));
+            SetViewData::setErrorMessage($ex->getMessage());
         } elseif(RequestUtils::methodValidate(HTTP_METHODS::POST)){
             $student=StudentManager::objectToStudent($_POST);
-            $setViewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
+            SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm($student));
         }
-        $setViewData->setErrorMessage($ex->getMessage());
+        SetViewData::setErrorMessage($ex->getMessage());
     } finally{
         require_once "../../../views/admin/update-student.php";
     }
