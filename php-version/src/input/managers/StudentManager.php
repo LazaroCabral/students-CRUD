@@ -81,14 +81,14 @@ class StudentManager{
 
     public static function objectToStudent($obj): Student{
         return new Student(
-            $obj[STUDENT_INPUT_NAMES::ID->value],
-            $obj[STUDENT_INPUT_NAMES::NAME->value],
-            $obj[STUDENT_INPUT_NAMES::EMAIL->value],
-            $obj[STUDENT_INPUT_NAMES::PHONE->value],
-            $obj[STUDENT_INPUT_NAMES::VALUE_PER_MONTH->value],
-            $obj[STUDENT_INPUT_NAMES::PASSWORD->value],
-            $obj[STUDENT_INPUT_NAMES::STATUS->value],
-            $obj[STUDENT_INPUT_NAMES::OBSERVATION->value]);
+            @$obj[STUDENT_INPUT_NAMES::ID->value],
+            @$obj[STUDENT_INPUT_NAMES::NAME->value],
+            @$obj[STUDENT_INPUT_NAMES::EMAIL->value],
+            @$obj[STUDENT_INPUT_NAMES::PHONE->value],
+            @$obj[STUDENT_INPUT_NAMES::VALUE_PER_MONTH->value],
+            @$obj[STUDENT_INPUT_NAMES::PASSWORD->value],
+            @$obj[STUDENT_INPUT_NAMES::STATUS->value],
+            @$obj[STUDENT_INPUT_NAMES::OBSERVATION->value]);
     }
 
     public static function studentToObject(Student $student){
