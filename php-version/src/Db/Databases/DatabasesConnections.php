@@ -8,7 +8,7 @@ class DatabasesConnections{
 
     public static function getDefaultDatabase(){
         if(DatabasesConnections::$connection == null){
-            DatabasesConnections::$connection=mysqli_connect("localhost","lazaro","1234","students_crud",3306);
+            DatabasesConnections::$connection=mysqli_connect($_ENV['SC_DB_HOSTNAME'],$_ENV['SC_DB_USERNAME'],$_ENV["SC_DB_PASSWORD"],$_ENV['SC_DB_DATABASE'],$_ENV['SC_DB_PORT']);
             return DatabasesConnections::$connection;
         } else{
             return DatabasesConnections::$connection;
