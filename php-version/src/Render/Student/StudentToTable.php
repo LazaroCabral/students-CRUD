@@ -1,6 +1,6 @@
 <?php
 
-namespace Lazaro\StudentCrud\Render\student;
+namespace Lazaro\StudentCrud\Render\Student;
 
 use Lazaro\StudentCrud\Render\Abstract\AbstractToTable;
 use Lazaro\StudentCrud\Render\Student\Utils\StudentRenderUtils;

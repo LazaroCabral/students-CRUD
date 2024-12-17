@@ -3,7 +3,7 @@
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
-use Lazaro\StudentCrud\Render\student\StudentToTable;
+use Lazaro\StudentCrud\Render\Student\StudentToTable;
 use Lazaro\StudentCrud\View\Data\SetViewData;
 
 require_once "../../../vendor/autoload.php";
