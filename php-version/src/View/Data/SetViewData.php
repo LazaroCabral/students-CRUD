@@ -3,28 +3,28 @@
 
  class SetViewData{
 
-    //public static $t="del,mdfdf";
-    //public static array $viewData=array("vdsvd"=>"vcv");
-    //public static array $renderFunctions=array(null);
+    private static string | null $view=null;
 
-    public function __construct() {
+    private function __construct() {}
 
-    }
-
-    public static function setRenderFunction(string $name, $function){
-        //self::$renderFunctions[$name]=$function;
+    public static function setRenderFunction(string $name, $function): void{
         $GLOBALS["viewData"]["renderFunctions"][$name]=$function;
     }
 
-    public static function setErrorMessage($message){
-        //self::$viewData["errorMessage"]=$message;
+    public static function setErrorMessage($message): void{
         $GLOBALS["viewData"]["errorMessage"]=$message;
     }
 
-    public static function setData(string $name,$data){
-        //array_push(SetViewData::$viewData,array($name=>$data));
-        //SetViewData::$viewData=array($name=>$data);
-        //$GLOBALS["view"]=array($name => $data);
+    public static function setData(string $name,$data): void{
         $GLOBALS["viewData"][$name]=$data;
     }
+
+    public static function setView(string $view): void{
+        SetViewData::$view=$view;
+    }
+
+    public static function getView(): string | null{
+        return SetViewData::$view;
+    } 
+
 }

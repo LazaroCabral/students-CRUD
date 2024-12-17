@@ -1,34 +1,34 @@
 <?php
 
+namespace public\controllers\admin;
+
+use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractController;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
 use Lazaro\StudentCrud\Render\Student\StudentToTable;
 use Lazaro\StudentCrud\View\Data\SetViewData;
+use Override;
 
 require_once "../../../vendor/autoload.php";
 
-execute();
+class ShowStudents extends AbstractController{
+    
+    #[Override()]
+    public function methodSelection(): void{
+        if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
+            $this->get();
+        }
+    }
 
-function execute(){
-    try{
-        methodSelector();
-    } catch(mysqli_sql_exception){
-        SetViewData::setErrorMessage("database error");
-    } finally{
-        require_once "../../../views/admin/index.php";
+    private function get(): void{
+        $studentManager= new StudentManager();
+        $students=$studentManager->findAll();
+        $toTable=new StudentToTable(null,["style =\"color:blue\""]);
+        SetViewData::setRenderFunction("printRowsTable", fn() => $toTable->printRowsTable($students));
+        SetViewData::setView("../../../views/admin/index.php");
     }
 }
 
-function methodSelector(){
-    if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
-        get();
-    }
-}
-
-function get(){
-    $studentManager= new StudentManager();
-    $students=$studentManager->findAll();
-    $toTable=new StudentToTable(null,["style =\"color:blue\""]);
-    SetViewData::setRenderFunction("printRowsTable", fn() => $toTable->printRowsTable($students));
-}
+$showStudents=new ShowStudents();
+$showStudents->execute();
