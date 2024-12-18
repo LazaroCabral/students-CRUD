@@ -4,37 +4,39 @@ namespace Lazaro\StudentCrud\Mvc\Controller\Template;
 
 use Exception;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Delete;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Put;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
-use Lazaro\StudentCrud\View\Data\SetViewData;
+use Lazaro\StudentCrud\Response\Data\ResponseDataInterface;
 use mysqli_sql_exception;
 
-
 abstract class AbstractController{
+
+    private ResponseDataInterface $responseData;
+
+    public function __construct(ResponseDataInterface $responseData) {
+        $this->responseData = $responseData;
+    }
 
     public function execute(): void{
         try{
             $this->methodSelection();
         } catch(Exception $ex){
             $this->exceptionTreatment($ex);
-        } finally{
-            if(SetViewData::getView() != null){
-                require SetViewData::getView();
-            }
         }
     }
 
     protected function exceptionTreatment(Exception $ex): void{
         switch($ex){
             case $ex instanceof mysqli_sql_exception:{
-                SetViewData::setErrorMessage("database error");
+                $this->responseData->setErrorMessage("database error");
                 break;
             };
             case $ex instanceof InvalidInputException:{
-                SetViewData::setErrorMessage($ex->getMessage());
+                $this->responseData->setErrorMessage($ex->getMessage());
                 break;
             };
             default: {
@@ -43,8 +45,8 @@ abstract class AbstractController{
         }
         
     }
-
-    public function methodSelection(): void{
+        
+    public final function methodSelection(): void{
 
         switch($this){
             case RequestUtils::methodValidate(HTTP_METHODS::GET)
@@ -69,5 +71,4 @@ abstract class AbstractController{
                     }
         }
     }
-
 }

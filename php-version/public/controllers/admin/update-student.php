@@ -7,9 +7,8 @@ use Lazaro\StudentCrud\Input\Utils\Enums\STUDENT_INPUT_NAMES;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
-use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractController;
+use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractMvcController;
 use Lazaro\StudentCrud\Render\Student\StudentForm;
-use Lazaro\StudentCrud\View\Data\SetViewData;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 use mysqli_sql_exception;
@@ -17,16 +16,16 @@ use Override;
 
 require_once "../../../vendor/autoload.php";
 
-class UpdateStudent extends AbstractController implements Get,Post{
+class UpdateStudent extends AbstractMvcController implements Get,Post{
 
     public function get(): void{
         $studentManager = new StudentManager();
         $student = $studentManager->findById(RequestUtils::getContent());
         if($student == null){
-            SetViewData::setErrorMessage("usuario não encontrado!");
+            $this->viewData->setErrorMessage("usuario não encontrado!");
         }
-        SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm($student));
-        SetViewData::setView("../../../views/admin/update-student.php");
+        $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
+        $this->viewData->setView("../../../views/admin/update-student.php");
     }
 
     public function post(): void{
@@ -45,19 +44,19 @@ class UpdateStudent extends AbstractController implements Get,Post{
         try{
             $this->methodSelection();
         } catch(mysqli_sql_exception $ex){
-            SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm(null));
+            $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
             parent::exceptionTreatment($ex);
         } catch(InvalidInputException $ex){
             if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
-                SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm(null));
+                $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
             } elseif(RequestUtils::methodValidate(HTTP_METHODS::POST)){
                 $student=StudentManager::objectToStudent($_POST);
-                SetViewData::setRenderFunction("printForm",fn() => StudentForm::printForm($student));
+                $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
             }
             parent::exceptionTreatment($ex);
         } finally{
-            if(SetViewData::getView()!=null){
-                require SetViewData::getView();
+            if($this->viewData->getView()!=null){
+                require $this->viewData->getView();
             }
         }
     }
