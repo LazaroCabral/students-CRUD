@@ -2,6 +2,7 @@
 
 namespace public\controllers\admin;
 
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
 use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractController;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
@@ -12,16 +13,9 @@ use Override;
 
 require_once "../../../vendor/autoload.php";
 
-class ShowStudents extends AbstractController{
-    
-    #[Override()]
-    public function methodSelection(): void{
-        if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
-            $this->get();
-        }
-    }
+class ShowStudents extends AbstractController implements Get{
 
-    private function get(): void{
+    public function get(): void{
         $studentManager= new StudentManager();
         $students=$studentManager->findAll();
         $toTable=new StudentToTable(null,["style =\"color:blue\""]);

@@ -4,6 +4,11 @@ namespace Lazaro\StudentCrud\Mvc\Controller\Template;
 
 use Exception;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Put;
+use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
+use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 use Lazaro\StudentCrud\View\Data\SetViewData;
 use mysqli_sql_exception;
 
@@ -39,6 +44,30 @@ abstract class AbstractController{
         
     }
 
-    public abstract function methodSelection(): void;
+    public function methodSelection(): void{
+
+        switch($this){
+            case RequestUtils::methodValidate(HTTP_METHODS::GET)
+                    && $this instanceof Get: {
+                        $this->get();
+                        break;
+                    }
+            case RequestUtils::methodValidate(HTTP_METHODS::POST)
+                    && $this instanceof Post: {
+                        $this->post();
+                        break;
+                    }
+            case RequestUtils::methodValidate(HTTP_METHODS::PUT)
+                    && $this instanceof Put: {
+                        $this->put();
+                        break;
+                    }
+            case RequestUtils::methodValidate(HTTP_METHODS::DELETE)
+                    && $this instanceof Delete: {
+                        $this->get();
+                        break;
+                    }
+        }
+    }
 
 }

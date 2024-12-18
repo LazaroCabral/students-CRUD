@@ -5,6 +5,8 @@ namespace public\controllers\admin;
 use Exception;
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
+use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
 use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractController;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
@@ -13,23 +15,13 @@ use Override;
 
 require_once "../.././../vendor/autoload.php";
 
-class AddStudent extends AbstractController{
+class AddStudent extends AbstractController implements Get,Post{
 
-    #[Override()]
-    public function methodSelection(): void{
-        if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
-            $this->get();
-        }
-        elseif(RequestUtils::methodValidate(HTTP_METHODS::POST)){
-            $this->post();
-        }
-    }
-
-    private function get(): void{
+    public function get(): void{
         SetViewData::setView("../../../views/admin/add-student.php");
     }
 
-    private function post(): void{
+    public function post(): void{
         $data= RequestUtils::getContent();   
         $studentManager= new StudentManager();
         $studentManager->insert($data);
