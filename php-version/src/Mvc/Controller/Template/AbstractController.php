@@ -66,7 +66,7 @@ abstract class AbstractController{
                     }
             case RequestUtils::methodValidate(HTTP_METHODS::DELETE)
                     && $this instanceof Delete: {
-                        $this->get();
+                        $this->delete();
                         break;
                     }
         }
