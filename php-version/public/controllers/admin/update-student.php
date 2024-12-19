@@ -38,27 +38,23 @@ class UpdateStudent extends AbstractMvcController implements Get,Post{
         }
         RequestUtils::redirectTo(RequestUtils::SOURCE_PROJECT."/public/controllers/admin/show-students.php");
     }
-    
+
     #[Override()]
-    public function execute(): void{
-        try{
-            $this->methodSelection();
-        } catch(mysqli_sql_exception $ex){
-            $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
-            parent::exceptionTreatment($ex);
-        } catch(InvalidInputException $ex){
-            if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
+    public function exceptionTreatment(\Exception $ex): void{
+        switch($ex){
+            case $ex instanceof mysqli_sql_exception:{
                 $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
-            } elseif(RequestUtils::methodValidate(HTTP_METHODS::POST)){
-                $student=StudentManager::objectToStudent($_POST);
-                $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
             }
-            parent::exceptionTreatment($ex);
-        } finally{
-            if($this->viewData->getView()!=null){
-                require $this->viewData->getView();
+            case $ex instanceof InvalidInputException:{
+                if(RequestUtils::methodValidate(HTTP_METHODS::GET)){
+                    $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
+                } elseif(RequestUtils::methodValidate(HTTP_METHODS::POST)){
+                    $student=StudentManager::objectToStudent($_POST);
+                    $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
+                }
             }
         }
+        parent::exceptionTreatment($ex);  
     }
 }
 
