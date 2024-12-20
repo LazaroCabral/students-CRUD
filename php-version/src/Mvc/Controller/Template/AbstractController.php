@@ -8,6 +8,7 @@ use Lazaro\StudentCrud\Mvc\Controller\Methods\Delete;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
 use Lazaro\StudentCrud\Mvc\Controller\Methods\Put;
+use Lazaro\StudentCrud\Request\Exceptions\HttpException;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 use Lazaro\StudentCrud\Response\Data\ResponseDataInterface;
@@ -15,10 +16,23 @@ use mysqli_sql_exception;
 
 abstract class AbstractController{
 
+    private bool $showException=true;
+
     private ResponseDataInterface $responseData;
 
     public function __construct(ResponseDataInterface $responseData) {
         $this->responseData = $responseData;
+    }
+
+    protected function httpErrorCodeTreatment(Exception $ex): void{
+        $descriptionPrefix='description';
+        $this->responseData->setErrorMessage($ex->getMessage());//->getMessage());
+        switch($ex){
+            case $ex->getMessage() == '405':{
+                $this->responseData->setData($descriptionPrefix,'method not allowed!');
+            }
+        }
+        http_response_code($ex->getMessage());
     }
 
     public function execute(): void{
@@ -39,8 +53,14 @@ abstract class AbstractController{
                 $this->responseData->setErrorMessage($ex->getMessage());
                 break;
             };
+            case $ex instanceof HttpException:{
+                $this->httpErrorCodeTreatment($ex);
+                break;
+            }
             default: {
-                throw new Exception();
+                if($this->showException == true){
+                    throw $ex;
+                }
             };
         }
         
@@ -69,6 +89,7 @@ abstract class AbstractController{
                         $this->delete();
                         break;
                     }
+            default : throw new HttpException(405);
         }
     }
 }
