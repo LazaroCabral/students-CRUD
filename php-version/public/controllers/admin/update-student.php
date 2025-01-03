@@ -52,6 +52,7 @@ class UpdateStudent extends AbstractMvcController implements Get,Post{
                     $student=StudentManager::objectToStudent($_POST);
                     $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
                 }
+                $this->viewData->setView("../../../views/admin/update-student.php");
             }
         }
         parent::exceptionTreatment($ex);  
