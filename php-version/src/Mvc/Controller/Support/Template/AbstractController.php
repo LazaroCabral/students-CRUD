@@ -1,13 +1,13 @@
 <?php
 
-namespace Lazaro\StudentCrud\Mvc\Controller\Template;
+namespace Lazaro\StudentCrud\Mvc\Controller\Support\Template;
 
 use Exception;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Delete;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Put;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Delete;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Get;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Post;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Put;
 use Lazaro\StudentCrud\Request\Exceptions\HttpException;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;

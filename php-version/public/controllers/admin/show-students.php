@@ -2,8 +2,8 @@
 
 namespace public\controllers\admin;
 
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
-use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractMvcController;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Get;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Template\AbstractMvcController;
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
 use Lazaro\StudentCrud\Render\Student\StudentToTable;
 

@@ -5,9 +5,9 @@ namespace public\controllers\admin;
 use Exception;
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
 use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Get;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
-use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractMvcController;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Get;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Post;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Template\AbstractMvcController;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 

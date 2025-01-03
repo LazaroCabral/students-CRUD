@@ -1,10 +1,8 @@
 <?php
 
 use Lazaro\StudentCrud\Input\Managers\StudentManager;
-use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
-use Lazaro\StudentCrud\Mvc\Controller\Methods\Post;
-use Lazaro\StudentCrud\Mvc\Controller\Template\AbstractRestController;
-use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Post;
+use Lazaro\StudentCrud\Mvc\Controller\Support\Template\AbstractRestController;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 
 require_once "../../../vendor/autoload.php";

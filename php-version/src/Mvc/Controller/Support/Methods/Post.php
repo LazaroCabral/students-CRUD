@@ -1,6 +1,6 @@
 <?php
 
-namespace Lazaro\StudentCrud\Mvc\Controller\Methods;
+namespace Lazaro\StudentCrud\Mvc\Controller\Support\Methods;
 
 interface Post{
 

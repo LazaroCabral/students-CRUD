@@ -1,6 +1,6 @@
 <?php
 
-namespace Lazaro\StudentCrud\Mvc\Controller\Template;
+namespace Lazaro\StudentCrud\Mvc\Controller\Support\Template;
 
 use Lazaro\StudentCrud\Request\Exceptions\HttpException;
 use Lazaro\StudentCrud\Response\Data\View\ViewData;
