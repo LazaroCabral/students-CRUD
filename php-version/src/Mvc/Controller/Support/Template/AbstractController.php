@@ -24,7 +24,7 @@ abstract class AbstractController{
         $this->responseData = $responseData;
     }
 
-    protected function httpErrorCodeTreatment(Exception $ex): void{
+    protected function httpErrorCodeHandler(Exception $ex): void{
         $descriptionPrefix='description';
         $this->responseData->setErrorMessage($ex->getMessage());//->getMessage());
         switch($ex){
@@ -39,11 +39,11 @@ abstract class AbstractController{
         try{
             $this->methodSelection();
         } catch(Exception $ex){
-            $this->exceptionTreatment($ex);
+            $this->exceptionHandler($ex);
         }
     }
 
-    protected function exceptionTreatment(Exception $ex): void{
+    protected function exceptionHandler(Exception $ex): void{
         switch($ex){
             case $ex instanceof mysqli_sql_exception:{
                 $this->responseData->setErrorMessage("database error");
@@ -54,7 +54,7 @@ abstract class AbstractController{
                 break;
             };
             case $ex instanceof HttpException:{
-                $this->httpErrorCodeTreatment($ex);
+                $this->httpErrorCodeHandler($ex);
                 break;
             }
             default: {

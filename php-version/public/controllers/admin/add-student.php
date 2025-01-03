@@ -29,12 +29,12 @@ class AddStudent extends AbstractMvcController implements Get,Post{
     }
 
     #[Override()]
-    public function exceptionTreatment(Exception $ex): void{
+    public function exceptionHandler(Exception $ex): void{
         if($ex instanceof InvalidInputException 
             && RequestUtils::methodValidate(HTTP_METHODS::POST)){
                 $this->viewData->setView("../../../views/admin/add-student.php");
         }
-        parent::exceptionTreatment($ex);
+        parent::exceptionHandler($ex);
     }
 }
 

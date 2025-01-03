@@ -22,13 +22,13 @@ abstract class AbstractMvcController extends AbstractController{
     }
 
     #[\Override()]
-    public function exceptionTreatment(\Exception $ex): void{
+    public function exceptionHandler(\Exception $ex): void{
         switch($ex){
             case $ex instanceof HttpException:{
                 $this->viewData->setView('../../../views/error/default-error-page.php');
             }
         }
-        parent::exceptionTreatment($ex);
+        parent::exceptionHandler($ex);
     }
 
 }

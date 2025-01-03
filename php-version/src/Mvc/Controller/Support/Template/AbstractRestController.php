@@ -26,7 +26,7 @@ abstract class AbstractRestController extends AbstractController{
         }
     }
 
-    public function exceptionTreatment(Exception $ex): void{
+    public function exceptionHandler(Exception $ex): void{
         switch($ex){
             case $ex instanceof mysqli_sql_exception:{
                 http_response_code(505);
@@ -37,7 +37,7 @@ abstract class AbstractRestController extends AbstractController{
                 break;
             }
         }
-        parent::exceptionTreatment($ex);
+        parent::exceptionHandler($ex);
     }
 
 }

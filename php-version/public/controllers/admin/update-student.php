@@ -40,7 +40,7 @@ class UpdateStudent extends AbstractMvcController implements Get,Post{
     }
 
     #[Override()]
-    public function exceptionTreatment(\Exception $ex): void{
+    public function exceptionHandler(\Exception $ex): void{
         switch($ex){
             case $ex instanceof mysqli_sql_exception:{
                 $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm(null));
@@ -55,7 +55,7 @@ class UpdateStudent extends AbstractMvcController implements Get,Post{
                 $this->viewData->setView("../../../views/admin/update-student.php");
             }
         }
-        parent::exceptionTreatment($ex);  
+        parent::exceptionHandler($ex);  
     }
 }
 
