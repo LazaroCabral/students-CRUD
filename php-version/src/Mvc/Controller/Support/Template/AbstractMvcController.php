@@ -24,11 +24,15 @@ abstract class AbstractMvcController extends AbstractController{
             ->create();
     }
 
+    abstract protected function defaultView(): string | null;
+
     #[\Override]
     public function execute(): void{
         parent::execute();
         if($this->viewData->getView() != null){
             require $this->viewData->getView();
+        } elseif($this->defaultView() != null){
+            require $this->defaultView();
         }
     }
 

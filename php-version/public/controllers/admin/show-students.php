@@ -11,12 +11,15 @@ require_once "../../../vendor/autoload.php";
 
 class ShowStudents extends AbstractMvcController implements Get{
 
+    protected function defaultView(): string | null{
+        return '../../../views/admin/index.php';
+    }
+
     public function get(): void{
         $studentManager= new StudentManager();
         $students=$studentManager->findAll();
         $toTable=new StudentToTable(null,["style =\"color:blue\""]);
         $this->viewData->setRenderFunction("printRowsTable", fn() => $toTable->printRowsTable($students));
-        $this->viewData->setView("../../../views/admin/index.php");
     }
 }
 

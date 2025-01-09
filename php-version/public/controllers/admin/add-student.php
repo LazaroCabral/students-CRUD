@@ -17,8 +17,12 @@ require_once "../.././../vendor/autoload.php";
 
 class AddStudent extends AbstractMvcController implements Get,Post{
 
+    protected function defaultView(): string | null{
+        return '../../../views/admin/add-student.php';
+    }
+
     public function get(): void{
-        $this->viewData->setView("../../../views/admin/add-student.php");
+        $this->viewData->setView($this->defaultView());
     }
 
     public function post(): void{
@@ -32,7 +36,7 @@ class AddStudent extends AbstractMvcController implements Get,Post{
     public function exceptionHandler(Exception $ex): void{
         if($ex instanceof InvalidInputException 
             && RequestUtils::methodValidate(HTTP_METHODS::POST)){
-                $this->viewData->setView("../../../views/admin/add-student.php");
+                $this->viewData->setView($this->defaultView());
         }
         parent::exceptionHandler($ex);
     }

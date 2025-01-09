@@ -18,6 +18,10 @@ require_once "../../../vendor/autoload.php";
 
 class UpdateStudent extends AbstractMvcController implements Get,Post{
 
+    protected function defaultView(): string | null{
+        return '../../../views/admin/update-student.php';
+    }
+
     public function get(): void{
         $studentManager = new StudentManager();
         $student = $studentManager->findById(RequestUtils::getContent());
@@ -25,7 +29,6 @@ class UpdateStudent extends AbstractMvcController implements Get,Post{
             $this->viewData->setErrorMessage("usuario não encontrado!");
         }
         $this->viewData->setRenderFunction("printForm",fn() => StudentForm::printForm($student));
-        $this->viewData->setView("../../../views/admin/update-student.php");
     }
 
     public function post(): void{
