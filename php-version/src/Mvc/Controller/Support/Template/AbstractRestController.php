@@ -3,8 +3,8 @@
 namespace Lazaro\StudentCrud\Mvc\Controller\Support\Template;
 
 use Exception;
-use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
-use mysqli_sql_exception;
+use Lazaro\StudentCrud\Application\Exception\Handlers\Directors\ExceptionHandlerDirector;
+use Lazaro\StudentCrud\Application\Exception\Handlers\ExceptionHandlerInterface;
 use Override;
 use Lazaro\StudentCrud\Response\Data\Rest\RestData;
 
@@ -12,9 +12,18 @@ abstract class AbstractRestController extends AbstractController{
 
     protected RestData $restData;
 
+    private ExceptionHandlerInterface $exceptionHandler;
+
     public function __construct() {
         $this->restData=RestData::getInstance();
+        $this->exeptionHandlerConfig();
         parent::__construct($this->restData);
+    }
+
+    private function exeptionHandlerConfig(): void{
+        $director=new ExceptionHandlerDirector();
+        $this->exceptionHandler = $director->createRestControllerExceptionHandlerChain(RestData::getInstance())
+            ->create();
     }
 
     #[Override()]
@@ -26,17 +35,9 @@ abstract class AbstractRestController extends AbstractController{
         }
     }
 
+    #[\Override]
     public function exceptionHandler(Exception $ex): void{
-        switch($ex){
-            case $ex instanceof mysqli_sql_exception:{
-                http_response_code(505);
-                break;
-            }
-            case $ex instanceof InvalidInputException:{
-                http_response_code(400);
-                break;
-            }
-        }
+        $this->exceptionHandler->execute($ex);
         parent::exceptionHandler($ex);
     }
 

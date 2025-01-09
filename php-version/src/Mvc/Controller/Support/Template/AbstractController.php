@@ -3,7 +3,8 @@
 namespace Lazaro\StudentCrud\Mvc\Controller\Support\Template;
 
 use Exception;
-use Lazaro\StudentCrud\Input\Utils\Validators\Exceptions\InvalidInputException;
+use Lazaro\StudentCrud\Application\Exception\Handlers\Directors\ExceptionHandlerDirector;
+use Lazaro\StudentCrud\Application\Exception\Handlers\ExceptionHandlerInterface;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Delete;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Get;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Post;
@@ -12,7 +13,6 @@ use Lazaro\StudentCrud\Request\Exceptions\HttpException;
 use Lazaro\StudentCrud\Request\Utils\Enums\HTTP_METHODS;
 use Lazaro\StudentCrud\Request\Utils\RequestUtils;
 use Lazaro\StudentCrud\Response\Data\ResponseDataInterface;
-use mysqli_sql_exception;
 
 abstract class AbstractController{
 
@@ -20,19 +20,17 @@ abstract class AbstractController{
 
     private ResponseDataInterface $responseData;
 
+    private ExceptionHandlerInterface $exceptionHandler;
+
     public function __construct(ResponseDataInterface $responseData) {
         $this->responseData = $responseData;
+        $this->exceptionHandlerConfig();
     }
 
-    protected function httpErrorCodeHandler(Exception $ex): void{
-        $descriptionPrefix='description';
-        $this->responseData->setErrorMessage($ex->getMessage());//->getMessage());
-        switch($ex){
-            case $ex->getMessage() == '405':{
-                $this->responseData->setData($descriptionPrefix,'method not allowed!');
-            }
-        }
-        http_response_code($ex->getMessage());
+    private function exceptionHandlerConfig():void{
+        $director=new ExceptionHandlerDirector();
+        $this->exceptionHandler = $director->createControllerExceptionHandlerChain($this->responseData)
+            ->create();
     }
 
     public function execute(): void{
@@ -44,26 +42,7 @@ abstract class AbstractController{
     }
 
     protected function exceptionHandler(Exception $ex): void{
-        switch($ex){
-            case $ex instanceof mysqli_sql_exception:{
-                $this->responseData->setErrorMessage("database error");
-                break;
-            };
-            case $ex instanceof InvalidInputException:{
-                $this->responseData->setErrorMessage($ex->getMessage());
-                break;
-            };
-            case $ex instanceof HttpException:{
-                $this->httpErrorCodeHandler($ex);
-                break;
-            }
-            default: {
-                if($this->showException == true){
-                    throw $ex;
-                }
-            };
-        }
-        
+        $this->exceptionHandler->execute($ex);
     }
         
     public final function methodSelection(): void{
