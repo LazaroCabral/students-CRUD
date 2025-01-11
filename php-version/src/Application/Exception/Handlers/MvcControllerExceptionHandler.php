@@ -17,9 +17,16 @@ class MvcControllerExceptionHandler extends AbstractExceptionHandler{
         switch($ex){
             case $ex instanceof HttpException:{
                 $this->viewData->setView('../../../views/error/default-error-page.php');
+                parent::execute($ex);
+            }
+            default: {
+                $this->viewData->setView('../../../views/error/default-error-page.php');
+                $this->viewData->setErrorMessage('500');
+                $this->viewData->setData('description', 'internal server error!!');
+                parent::execute($ex);
             }
         }
-        parent::execute($ex);
+        
     }
 
 }
