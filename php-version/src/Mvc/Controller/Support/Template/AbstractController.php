@@ -3,7 +3,6 @@
 namespace Lazaro\StudentCrud\Mvc\Controller\Support\Template;
 
 use Exception;
-use Lazaro\StudentCrud\Application\Exception\Handlers\Directors\ExceptionHandlerDirector;
 use Lazaro\StudentCrud\Application\Exception\Handlers\ExceptionHandlerInterface;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Delete;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Get;
@@ -16,21 +15,13 @@ use Lazaro\StudentCrud\Response\Data\ResponseDataInterface;
 
 abstract class AbstractController{
 
-    private bool $showException=true;
-
     private ResponseDataInterface $responseData;
 
     private ExceptionHandlerInterface $exceptionHandler;
 
-    public function __construct(ResponseDataInterface $responseData) {
+    public function __construct(ResponseDataInterface $responseData, ExceptionHandlerInterface $exceptionHandler) {
         $this->responseData = $responseData;
-        $this->exceptionHandlerConfig();
-    }
-
-    private function exceptionHandlerConfig():void{
-        $director=new ExceptionHandlerDirector();
-        $this->exceptionHandler = $director->createControllerExceptionHandlerChain($this->responseData)
-            ->create();
+        $this->exceptionHandler= $exceptionHandler;
     }
 
     public function execute(): void{
