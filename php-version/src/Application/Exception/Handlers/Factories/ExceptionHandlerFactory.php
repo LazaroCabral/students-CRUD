@@ -3,32 +3,31 @@
 namespace Lazaro\StudentCrud\Application\Exception\Handlers\Factories;
 
 use Lazaro\StudentCrud\Application\Exception\Handlers\Builders\ExceptionHandlerBuilder;
-use Lazaro\StudentCrud\Application\Exception\Handlers\Directors\ExceptionHandlerDirector;
 use Lazaro\StudentCrud\Application\Exception\Handlers\ExceptionHandlerInterface;
+use Lazaro\StudentCrud\Application\Exception\Handlers\HttpExceptionHandler;
+use Lazaro\StudentCrud\Application\Exception\Handlers\MvcControllerExceptionHandler;
+use Lazaro\StudentCrud\Application\Exception\Handlers\RestControllerExceptionHandler;
+use Lazaro\StudentCrud\Response\Data\ResponseDataInterface;
 use Lazaro\StudentCrud\Response\Data\Rest\RestData;
 use Lazaro\StudentCrud\Response\Data\View\ViewData;
 
 class ExceptionHandlerFactory{
 
-    private ExceptionHandlerDirector $director;
-
-    public function __construct() {
-        $this->director = new ExceptionHandlerDirector();
+    private function defaultExceptionHandlerBuilder(ResponseDataInterface $responseData): ExceptionHandlerBuilder{
+        return new ExceptionHandlerBuilder(new HttpExceptionHandler($responseData));
     }
 
     public function createMvcExceptionHandler(ViewData $viewData): ExceptionHandlerInterface{
-        $builder= new ExceptionHandlerBuilder();
+        $builder= $this->defaultExceptionHandlerBuilder($viewData);
         return $builder
-            ->addHandler($this->director->createControllerExceptionHandlerChain($viewData)->create())
-            ->addHandler($this->director->createMvcControllerExceptionHandlerChain($viewData)->create())
+            ->addHandler(new MvcControllerExceptionHandler($viewData))
             ->create();
     }
 
     public function createRestExceptionHandler(RestData $restData): ExceptionHandlerInterface{
-        $builder= new ExceptionHandlerBuilder();
+        $builder= $this->defaultExceptionHandlerBuilder($restData);
         return $builder
-            ->addHandler($this->director->createControllerExceptionHandlerChain($restData)->create())
-            ->addHandler($this->director->createRestControllerExceptionHandlerChain($restData)->create())
+            ->addHandler(new RestControllerExceptionHandler($restData))
             ->create();
     }
 
