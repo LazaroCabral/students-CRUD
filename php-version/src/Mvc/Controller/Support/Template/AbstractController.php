@@ -4,6 +4,7 @@ namespace Lazaro\StudentCrud\Mvc\Controller\Support\Template;
 
 use Exception;
 use Lazaro\StudentCrud\Application\Exception\Handlers\ExceptionHandlerInterface;
+use Lazaro\StudentCrud\Application\Init;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Delete;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Get;
 use Lazaro\StudentCrud\Mvc\Controller\Support\Methods\Post;
@@ -20,6 +21,8 @@ abstract class AbstractController{
     private ExceptionHandlerInterface $exceptionHandler;
 
     public function __construct(ResponseDataInterface $responseData, ExceptionHandlerInterface $exceptionHandler) {
+        $init=new Init();
+        $init->init();
         $this->responseData = $responseData;
         $this->exceptionHandler= $exceptionHandler;
     }
