@@ -15,13 +15,15 @@ class RestControllerExceptionHandler extends AbstractExceptionHandler{
 
     public function execute(\Exception $ex):void{
         switch($ex){
-            case $ex instanceof \mysqli_sql_exception:{
-                http_response_code(505);
-                break;
-            }
             case $ex instanceof InvalidInputException:{
+                $this->restData->setErrorMessage($ex->getMessage());
                 http_response_code(400);
                 break;
+            }
+            default:{
+                $this->restData->setErrorMessage('500');
+                $this->restData->setErrorDescription('internal server error!');
+                http_response_code(500);
             }
         }
         parent::execute($ex);
