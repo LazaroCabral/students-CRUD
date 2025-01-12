@@ -3,9 +3,14 @@
 namespace Lazaro\StudentCrud\Response\Data;
 
 interface ResponseDataInterface{
+
     public function setErrorMessage(string $message): void;
 
     public function getErrorMessage(): string | null;
+
+    public function setErrorDescription(string $description): void;
+
+    public function getErrorDescription(): string | null;
 
     public function setData(string $name,$data): void;
 

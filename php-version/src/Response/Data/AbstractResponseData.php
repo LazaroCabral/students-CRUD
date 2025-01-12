@@ -18,6 +18,14 @@ abstract class AbstractResponseData implements ResponseDataInterface{
         return $GLOBALS[$this->prefix]['errorMessage'];
     }
 
+    public function setErrorDescription(string $description): void{
+        $GLOBALS[$this->prefix]['errorDescription']=$description;
+    }
+
+    public function getErrorDescription(): string | null{
+        return $GLOBALS[$this->prefix]['errorDescription'];
+    }
+
     public function setData(string $name,$data): void{
         $GLOBALS[$this->prefix][$name]=$data;
     }
