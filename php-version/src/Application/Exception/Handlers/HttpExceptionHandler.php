@@ -15,11 +15,10 @@ class HttpExceptionHandler extends AbstractExceptionHandler{
 
     public function execute(\Exception $ex):void {
         if($ex instanceof HttpException){
-            $descriptionPrefix='description';
             $this->responseData->setErrorMessage($ex->getMessage());
             switch($ex){
                 case $ex->getMessage() == '405':{
-                    $this->responseData->setData($descriptionPrefix,'method not allowed!');
+                    $this->responseData->setErrorDescription('method not allowed!');
                 }
             }
             http_response_code($ex->getMessage());

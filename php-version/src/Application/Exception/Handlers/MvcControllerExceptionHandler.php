@@ -22,7 +22,7 @@ class MvcControllerExceptionHandler extends AbstractExceptionHandler{
             default: {
                 $this->viewData->setView('../../../views/error/default-error-page.php');
                 $this->viewData->setErrorMessage('500');
-                $this->viewData->setData('description', 'internal server error!!');
+                $this->viewData->setErrorDescription('internal server error!!');
                 parent::execute($ex);
             }
         }

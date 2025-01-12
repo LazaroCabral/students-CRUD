@@ -1,5 +1,5 @@
 <?php
-    $description=$GLOBALS['viewData']['description'];
+    $description=$GLOBALS['viewData']['errorDescription'];
     $errorMessage=$GLOBALS['viewData']['errorMessage'];
 ?>
 <!DOCTYPE html>
